@@ -44,6 +44,11 @@ export class TasksService {
 
     return found;
   }
+
+  async createTask(createTaskDto: CreateTaskDto) {
+    return this.taskRepository.createTask(createTaskDto);
+  }
+
   /*
 
   createTask(createTaskDto: CreateTaskDto) {
