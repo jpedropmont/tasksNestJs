@@ -5,6 +5,7 @@ import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskEntity } from './task.entity';
 import { TaskStatus } from './task-status-enum';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -35,9 +36,9 @@ export class TasksService {
 
     return tasks;
   }
-
   */
-  async getTaskById(id: number): Promise<TaskEntity> {
+
+  async getTaskById(id: string): Promise<TaskEntity> {
     const found = await this.taskRepository.findOne(id);
 
     if (!found) {
@@ -59,7 +60,6 @@ export class TasksService {
   }
 
   /*
-
   createTask(createTaskDto: CreateTaskDto) {
     const { title, description } = createTaskDto;
 
@@ -72,10 +72,29 @@ export class TasksService {
     this.tasks.push(task);
     return task;
   }
-
   */
 
-  async deleteTask(id: number): Promise<void> {
+  async updateTask(
+    id: string,
+    updateTaskDto: UpdateTaskDto,
+  ): Promise<TaskEntity> {
+    const { title, description } = updateTaskDto;
+    const task = new TaskEntity();
+
+    if (title) {
+      task.title = title;
+    }
+
+    if (description) {
+      task.description = description;
+    }
+
+    await this.taskRepository.update({ id }, task);
+
+    return this.getTaskById(id);
+  }
+
+  async deleteTask(id: string): Promise<void> {
     const result = await this.taskRepository.delete(id);
 
     if (result.affected === 0) {
