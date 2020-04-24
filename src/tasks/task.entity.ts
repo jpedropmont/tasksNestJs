@@ -3,8 +3,8 @@ import { TaskStatus } from './task-status-enum';
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   title: string;
