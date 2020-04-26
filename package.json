@@ -27,6 +27,7 @@
     "@nestjs/typeorm": "^7.0.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.1",
+    "i": "^0.3.6",
     "pg": "^8.0.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
