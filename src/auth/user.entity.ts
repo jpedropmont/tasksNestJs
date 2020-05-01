@@ -6,6 +6,7 @@ import {
   Unique,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { TaskEntity } from 'src/tasks/task.entity';
 
 @Entity('user')
 @Unique(['username'])
@@ -21,6 +22,9 @@ export class UserEntity extends BaseEntity {
 
   @Column()
   salt: string;
+
+  @Column()
+  tasks: TaskEntity[];
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);
