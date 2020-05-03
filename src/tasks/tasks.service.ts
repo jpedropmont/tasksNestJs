@@ -5,7 +5,6 @@ import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskEntity } from './task.entity';
 import { TaskStatus } from './task-status-enum';
-import { UpdateTaskDto } from './dto/update-task.dto';
 import { UserEntity } from 'src/auth/user.entity';
 
 @Injectable()
@@ -53,18 +52,19 @@ export class TasksService {
     return task;
   }
 
-  /*   async updateTaskStatus(id: number, status: TaskStatus): Promise<TaskEntity> {
-    const task = await this.getTaskById(id);
+  async updateTaskStatus(
+    id: number,
+    status: TaskStatus,
+    user: UserEntity,
+  ): Promise<TaskEntity> {
+    const task = await this.getTaskById(id, user);
     task.status = status;
     await task.save();
     return task;
-  } */
+  }
 
-  async deleteTask(id: number): Promise<void> {
-    const result = await this.taskRepository.delete(id);
-
-    if (result.affected === 0) {
-      throw new NotFoundException(`Task with id ${id} not found`);
-    }
+  async deleteTask(id: number, user: UserEntity): Promise<void> {
+    const task = await this.getTaskById(id, user);
+    await this.taskRepository.delete(task);
   }
 }
