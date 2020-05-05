@@ -1,0 +1,8 @@
+db:
+  host: '192.168.99.100'
+  username: 'postgres'
+  password: 'root'
+  synchronize: true
+
+jwt:
+  secret: 'topSecret51'
